@@ -1,8 +1,5 @@
 name: learn-github-actions
-on:
-  push:
-    branches:
-      - develop
+on: [push]
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -10,11 +7,14 @@ jobs:
       - name: Checkout develop
         uses: actions/checkout@v2
 
-      - name: SetUp PHP
+      - name: Setup PHP
         uses: shivamathur/setup-php@v2
-        with: 
+        with:
           tools: composer:v2
           php:version: '7.4'
 
-      - name: Check files
-        run: ls -al
+      - name: install project dependencies
+        run: composer install
+
+      - name: Run with tests
+        run: ./vendor/bin/phpunit -c phpunit.xml
