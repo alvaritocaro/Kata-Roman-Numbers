@@ -1,8 +1,20 @@
 name: learn-github-actions
-on: [push]
+on:
+  push:
+    branches:
+      - develop
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - run: ls -al
+      - name: Checkout develop
+        uses: actions/checkout@v2
+
+      - name: SetUp PHP
+        uses: shivamathur/setup-php@v2
+        with: 
+          tools: composer:v2
+          php:version: '7.4'
+
+      - name: Check files
+        run: ls -al
